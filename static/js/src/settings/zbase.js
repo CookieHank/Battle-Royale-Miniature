@@ -28,16 +28,19 @@ class Settings{
                     <button>Sign In</button>
                 </div>
             </div>
-            <div class="ac-game-settings-error-messages">The username and/or password you specified are not correct.</div>
-            <div class="ac-game-settings-option">Create Account<div>
-
-
-        </div>
-
-
+            <div class="ac-game-settings-error-messages"></div>
+            <div class="ac-game-settings-option">Create Account
+            <div>
+            <br> <br> <br>
+            <div class="ac-game-settings-acwing">
+                <img width="30" src="https://app5736.acapp.acwing.com.cn/static/image/settings/acwing_logo.png">
+                <div>
+                    Login Through Partner - ACWing
+                </div>
+                <br>
+            </div>
     </div>
-
-    <div class="ad-game-settings-register">
+    <div class="ac-game-settings-register">
 
     </div>
 </div>            
