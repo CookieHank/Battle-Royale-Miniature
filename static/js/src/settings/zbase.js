@@ -29,18 +29,18 @@ class Settings{
                 </div>
             </div>
             <div class="ac-game-settings-error-messages"></div>
-            <div class="ac-game-settings-option">Create Account
-            <div>
-            <br> <br> <br>
+            <div class="ac-game-settings-option">Create Account<div>
             <div class="ac-game-settings-acwing">
                 <img width="30" src="https://app5736.acapp.acwing.com.cn/static/image/settings/acwing_logo.png">
-                <div>
-                    Login Through Partner - ACWing
-                </div>
                 <br>
             </div>
+
+        </div>
+
+
     </div>
-    <div class="ac-game-settings-register">
+
+    <div class="ad-game-settings-register">
 
     </div>
 </div>            
