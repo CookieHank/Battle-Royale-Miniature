@@ -1,1 +1,1 @@
-A Simplified Online Multiplayer PUBG Game
+A Simplified League of Legends - 2D MOBA Game
