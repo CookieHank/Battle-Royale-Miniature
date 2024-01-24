@@ -1,5 +1,5 @@
-class Settings{
-    constructor(root){
+class Settings {
+    constructor(root) {
         this.root = root;
         this.platform = "WEB";
         if (this.root.AcWingOS) this.platform = 'ACAPP';
@@ -28,7 +28,7 @@ class Settings{
                     <button>Sign In</button>
                 </div>
             </div>
-            <div class="ac-game-settings-error-messages"></div>
+            <div class="ac-game-settings-error-message"></div>
             <div class="ac-game-settings-option">Create Account<div>
             <div class="ac-game-settings-acwing">
                 <img width="30" src="https://app5736.acapp.acwing.com.cn/static/image/settings/acwing_logo.png">
@@ -57,21 +57,21 @@ class Settings{
         this.start();
     }
 
-    start(){
+    start() {
         this.getinfo();
     }
 
-    register(){ // open the register page
+    register() { // open the register page
         this.$login.hide();
         this.$register.show();
     }
 
-    login(){ // open the login page
+    login() { // open the login page
         this.$register.hide();
         this.$login.show();
     }
 
-    getinfo(){
+    getinfo() {
         let outer = this;
         $.ajax({
             url: "https://app5736.acapp.acwing.com.cn/settings/getinfo/",
@@ -80,9 +80,9 @@ class Settings{
                 platform: outer.platform,
 
             },
-            success: function(resp) {
+            success: function (resp) {
                 console.log(resp);
-                if (resp.result === "success"){
+                if (resp.result === "success") {
                     outer.username = resp.username;
                     outer.photo = resp.photo;
                     outer.hide();
@@ -95,11 +95,11 @@ class Settings{
 
         });
     }
-    hide(){
+    hide() {
         this.$settings.hide();
     }
 
-    show(){
+    show() {
         this.$settings.show();
     }
 }
