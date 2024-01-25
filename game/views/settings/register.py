@@ -25,7 +25,7 @@ def register(request):
     user = User(username=username)
     user.set_password(password)
     user.save()
-    Player.objects.create(user=user, photo="https://www.google.com/imgres?imgurl=https%3A%2F%2Fplay-lh.googleusercontent.com%2Fsp23tyBI3QmYvXKc0ZesZ6x6BHDSvPsFQWcgtlOuBkLYFxX7eiNO3Y2B0dCLXvak-x4%3Dw600-h300-pc0xffffff-pd&tbnid=Ot_FOlaUGcmxuM&vet=12ahUKEwj4rM6XxvmDAxUEF2IAHc28CU0QMyhCegUIARD6AQ..i&imgrefurl=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.sparelabs.platform.rider.bluejayshuttle&docid=_Rb_gkAP3BGfiM&w=600&h=300&q=jhu%20blue%20jay&ved=2ahUKEwj4rM6XxvmDAxUEF2IAHc28CU0QMyhCegUIARD6AQ")
+    Player.objects.create(user=user, photo="https://images.footballfanatics.com/johns-hopkins-blue-jays/johns-hopkins-blue-jays-auto-emblem_ss10_p-100102233+u-w6jxyplwncahvhrf6u9b+v-nmxzgbovfppyulvx0qxq.jpg?_hv=2&w=900")
     # login after registeration 
     login(request, user)
     return JsonResponse({
