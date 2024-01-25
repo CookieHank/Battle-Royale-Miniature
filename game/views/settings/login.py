@@ -14,5 +14,5 @@ def signin(request):
     
     login(request, user)
     return JsonResponse({
-        'result': "Success!"
+        'result': "success"
     })

@@ -10,5 +10,5 @@ def signout(request):
         })
     logout(request)
     return JsonResponse({
-        'result': "Success",
+        'result': "success",
     })
