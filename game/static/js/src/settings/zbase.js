@@ -118,9 +118,9 @@ class Settings {
         this.add_listening_events_login();
         this.add_listening_events_register();
 
-        this.$acwing_login.click(function () {
-            outer.acwing_login();
-        });
+        // this.$acwing_login.click(function () {
+        //     outer.acwing_login();
+        // });
     }
 
     add_listening_events_login() {
