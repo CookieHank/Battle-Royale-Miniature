@@ -1,5 +1,5 @@
-class AcGameMenu{
-    constructor(root){
+class AcGameMenu {
+    constructor(root) {
         this.root = root;
         this.$menu = $(`
 <div class="ac-game-menu">
@@ -26,7 +26,7 @@ class AcGameMenu{
 
         this.start();
     }
-    
+
     start() {
         this.add_listening_events();
 
@@ -34,24 +34,24 @@ class AcGameMenu{
 
     add_listening_events() {
         let outer = this;
-        this.$single.click(function(){
+        this.$single.click(function () {
             outer.hide();
             outer.root.playground.show();
         });
-        this.$multi.click(function(){
-             console.log("Click multi");
+        this.$multi.click(function () {
+            console.log("Click multi");
         });
-        this.$settings.click(function(){
-             console.log("Click settings");
+        this.$settings.click(function () {
+            console.log("Click settings");
         });
     }
 
     show() { // show the menu page
         this.$menu.show();
     }
-    
 
-    hide(){ // close the menu page
+
+    hide() { // close the menu page
         this.$menu.hide();
     }
 
@@ -65,21 +65,21 @@ class AcGameObject {
         this.has_called_start = false; // to see if we have used start function
         this.timedelta = 0; // Current frame time interval from the previous frame
     }
-    
+
     start() { // It will only be executed on the first frame once
     }
 
     update() { // It is executed once per frame
 
     }
-    on_destroy(){ // execute before destroy
+    on_destroy() { // execute before destroy
     }
 
-    destroy(){ // delete the item
-        for (let i = 0; i < AC_GAME_OBJECTS.length; i ++ ) {
+    destroy() { // delete the item
+        for (let i = 0; i < AC_GAME_OBJECTS.length; i++) {
             if (AC_GAME_OBJECTS[i] === this) {
-                AC_GAME_OBJECTS.splice(i,1);
-                    break;
+                AC_GAME_OBJECTS.splice(i, 1);
+                break;
             }
         }
     }
@@ -87,16 +87,16 @@ class AcGameObject {
 
 let last_timestamp;
 
-let AC_GAME_ANIMATION = function(timestamp){
-    for (let i = 0; i < AC_GAME_OBJECTS.length; i ++ ){
+let AC_GAME_ANIMATION = function (timestamp) {
+    for (let i = 0; i < AC_GAME_OBJECTS.length; i++) {
         let obj = AC_GAME_OBJECTS[i];
-        if (!obj.has_called_start){
+        if (!obj.has_called_start) {
             obj.start();
             obj.has_called_start = true;
         } else {
             obj.timedelta = timestamp - last_timestamp;
             obj.update();
-    
+
         }
     }
 
@@ -117,14 +117,14 @@ class GameMap extends AcGameObject {
 
     }
 
-    start(){
+    start() {
     }
 
-    update(){
+    update() {
         this.render();
     }
-    
-    render(){
+
+    render() {
         this.ctx.fillStyle = "rgba(0,0,0,0.6)";
         this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     }
@@ -133,7 +133,7 @@ class GameMap extends AcGameObject {
 }
 
 class Particle extends AcGameObject {
-    constructor(playground, x, y, radius, vx, vy,  color, speed, move_length) {
+    constructor(playground, x, y, radius, vx, vy, color, speed, move_length) {
         super();
         this.playground = playground;
         this.ctx = this.playground.game_map.ctx;
@@ -149,15 +149,15 @@ class Particle extends AcGameObject {
         this.eps = 1;
     }
 
-    start(){
+    start() {
     }
 
-    update(){
+    update() {
         if (this.speed < this.eps || this.move_length < this.eps) {
-        this.destroy();
+            this.destroy();
             return false;
         }
-        
+
         let moved = Math.min(this.move_length, this.speed * this.timedelta / 1000);
         this.x += this.vx * moved;
         this.y += this.vy * moved;
@@ -166,7 +166,7 @@ class Particle extends AcGameObject {
         this.render();
     }
 
-    render(){
+    render() {
         this.ctx.beginPath();
         this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
         this.ctx.fillStyle = this.color;
@@ -194,7 +194,7 @@ class Player extends AcGameObject {
         this.eps = 0.1;
         this.friction = 0.9;
         this.time_spent = 0;
-        
+
         this.cur_skill = null;
         if (this.is_me) {
             this.img = new Image();
@@ -204,9 +204,9 @@ class Player extends AcGameObject {
 
 
 
-    start(){
+    start() {
         if (this.is_me) {
-             this.add_listening_events();
+            this.add_listening_events();
         } else {
             let tx = Math.random() * this.playground.width;
             let ty = Math.random() * this.playground.height;
@@ -215,7 +215,7 @@ class Player extends AcGameObject {
         }
     }
 
-    update(){
+    update() {
         this.time_spent += this.timedelta / 1000;
         if (!this.is_me && this.time_spent > 4 && Math.random() < 1 / 300.0) {
 
@@ -233,35 +233,35 @@ class Player extends AcGameObject {
             this.y += this.damage_y * this.damage_speed * this.timedelta / 1000;
             this.damage_speed *= this.friction;
         }
-            else {
-                if (this.move_length < this.eps) {
-                    this.move_length = 0;
-                    this.vx = this.vy = 0;
-                    if (!this.is_me) {
-                        let tx = Math.random() * this.playground.width;
-                        let ty = Math.random() * this.playground.height;
-                        this.move_to(tx, ty);
-
-                    }
-                } else {
-                    let moved = Math.min(this.move_length, this.speed * this.timedelta / 1000);
-                    this.x += this.vx * moved;
-                    this.y += this.vy * moved;
-                    this.move_length -= moved;
+        else {
+            if (this.move_length < this.eps) {
+                this.move_length = 0;
+                this.vx = this.vy = 0;
+                if (!this.is_me) {
+                    let tx = Math.random() * this.playground.width;
+                    let ty = Math.random() * this.playground.height;
+                    this.move_to(tx, ty);
 
                 }
+            } else {
+                let moved = Math.min(this.move_length, this.speed * this.timedelta / 1000);
+                this.x += this.vx * moved;
+                this.y += this.vy * moved;
+                this.move_length -= moved;
+
             }
+        }
         this.render(); // must build the element everytime or it will dispear
 
     }
 
-    add_listening_events(){
+    add_listening_events() {
         let outer = this;
-        this.playground.game_map.$canvas.on("contextmenu", function() {
+        this.playground.game_map.$canvas.on("contextmenu", function () {
             return false;
         });
 
-        this.playground.game_map.$canvas.mousedown(function(e){
+        this.playground.game_map.$canvas.mousedown(function (e) {
             const rect = outer.ctx.canvas.getBoundingClientRect();
             if (e.which === 3) {
                 outer.move_to(e.clientX - rect.left, e.clientY - rect.top);
@@ -276,7 +276,7 @@ class Player extends AcGameObject {
         });
 
 
-        $(window).keydown(function(e){
+        $(window).keydown(function (e) {
             if (outer.radius < 10) return false;
             if (e.which === 81) { // Q - key
                 outer.cur_skill = "fireball";
@@ -285,7 +285,7 @@ class Player extends AcGameObject {
         });
     }
 
-    shoot_fireball(tx, ty){
+    shoot_fireball(tx, ty) {
         let x = this.x, y = this.y;
         let radius = this.playground.height * 0.01;
         let angle = Math.atan2(ty - this.y, tx - this.x);
@@ -296,7 +296,7 @@ class Player extends AcGameObject {
         new FireBall(this.playground, this, x, y, radius, vx, vy, color, speed, move_length, this.playground.height * 0.01);
     }
 
-    get_dist(x1,y1,x2,y2) {
+    get_dist(x1, y1, x2, y2) {
         let dx = x1 - x2;
         let dy = y1 - y2;
         return Math.sqrt(dx * dx + dy * dy);
@@ -310,8 +310,8 @@ class Player extends AcGameObject {
         this.vy = Math.sin(angle);
     }
 
-    is_attacked(angle, damage){
-        for (let i = 0; i < 20 + Math.random() * 5; i ++ ){
+    is_attacked(angle, damage) {
+        for (let i = 0; i < 20 + Math.random() * 5; i++) {
             let x = this.x, y = this.y;
             let radius = this.radius * Math.random() * 0.1;
             let angle = Math.PI * 2 * Math.random();
@@ -337,14 +337,14 @@ class Player extends AcGameObject {
 
     }
 
-    render(){
+    render() {
         if (this.is_me) {
             this.ctx.save();
             this.ctx.beginPath();
             this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
             this.ctx.stroke();
             this.ctx.clip();
-            this.ctx.drawImage(this.img, this.x - this.radius, this.y - this.radius, this.radius * 2, this.radius * 2); 
+            this.ctx.drawImage(this.img, this.x - this.radius, this.y - this.radius, this.radius * 2, this.radius * 2);
             this.ctx.restore();
         } else {
             this.ctx.beginPath();
@@ -355,19 +355,19 @@ class Player extends AcGameObject {
 
     }
 
-    on_destroy(){
-        for (let i = 0; i < this.playground.players.length; i ++ ) {
+    on_destroy() {
+        for (let i = 0; i < this.playground.players.length; i++) {
             if (this.playground.players[i] === this) {
                 this.playground.players.splice(i, 1);
             }
         }
     }
 }
-class FireBall extends AcGameObject{
+class FireBall extends AcGameObject {
     constructor(playground, player, x, y, radius, vx, vy, color, speed, move_length, damage) {
-    super();
-    this.playground = playground;
-    this.player = player;
+        super();
+        this.playground = playground;
+        this.player = player;
         this.ctx = this.playground.game_map.ctx;
         this.x = x;
         this.y = y;
@@ -381,12 +381,12 @@ class FireBall extends AcGameObject{
         this.damage = damage;
     }
 
-    start(){
+    start() {
 
     }
 
-    update(){
-        if(this.move_length < this.eps ){
+    update() {
+        if (this.move_length < this.eps) {
             this.destroy();
             return false;
         }
@@ -397,9 +397,9 @@ class FireBall extends AcGameObject{
         this.move_length -= moved;
 
 
-        for (let i = 0; i < this.playground.players.length; i ++ ) {
+        for (let i = 0; i < this.playground.players.length; i++) {
             let player = this.playground.players[i];
-            if (this.player !== player && this.is_collision(player) ) {
+            if (this.player !== player && this.is_collision(player)) {
                 this.attack(player)
 
             }
@@ -407,27 +407,27 @@ class FireBall extends AcGameObject{
 
         this.render();
     }
-    
+
     get_dist(x1, y1, x2, y2) {
         let dx = x1 - x2;
         let dy = y1 - y2;
         return Math.sqrt(dx * dx + dy * dy);
     }
 
-    attack(player){
-        let angle = Math.atan2(player.y - this.y , player.x - this.x);
+    attack(player) {
+        let angle = Math.atan2(player.y - this.y, player.x - this.x);
 
         player.is_attacked(angle, this.damage);
         this.destroy();
     }
 
-    is_collision(player){
+    is_collision(player) {
         let distance = this.get_dist(this.x, this.y, player.x, player.y);
         if (distance < this.radius + player.radius) return true;
         return false;
     }
 
-    render(){
+    render() {
         this.ctx.beginPath();
         this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
         this.ctx.fillStyle = this.color;
@@ -439,22 +439,22 @@ class AcGamePlayground {
     constructor(root) {
         this.root = root;
         this.$playground = $(`<div class="ac-game-playground"> </div>`);
-        
+
         this.hide();
-       
+
 
 
         this.start();
     }
 
-    get_random_color () {
+    get_random_color() {
         let colors = ["blue", "red", "pink", "grey", "green"];
         return colors[Math.floor(Math.random() * 5)];
 
     }
 
 
-    start(){
+    start() {
 
     }
 
@@ -466,20 +466,20 @@ class AcGamePlayground {
         this.height = this.$playground.height();
         this.game_map = new GameMap(this);
         this.players = [];
-        this.players.push(new Player(this, this.width /2, this.height / 2, this.height * 0.05, "white", this.height * 0.15, true));
+        this.players.push(new Player(this, this.width / 2, this.height / 2, this.height * 0.05, "white", this.height * 0.15, true));
 
-        for(let i = 0; i < 5; i ++ ){
-            this.players.push(new Player(this, this.width /2, this.height / 2, this.height * 0.05, this.get_random_color(), this.height * 0.15, false));
+        for (let i = 0; i < 5; i++) {
+            this.players.push(new Player(this, this.width / 2, this.height / 2, this.height * 0.05, this.get_random_color(), this.height * 0.15, false));
         }
     }
 
 
-    hide(){ // hide the playground
+    hide() { // hide the playground
         this.$playground.hide();
     }
 }
-class Settings{
-    constructor(root){
+class Settings {
+    constructor(root) {
         this.root = root;
         this.platform = "WEB";
         if (this.root.AcWingOS) this.platform = 'ACAPP';
@@ -508,8 +508,8 @@ class Settings{
                     <button>Sign In</button>
                 </div>
             </div>
-            <div class="ac-game-settings-error-messages"></div>
-            <div class="ac-game-settings-option">Create Account<div>
+            <div class="ac-game-settings-error-message"></div>
+            <div class="ac-game-settings-option">Register<div>
             <div class="ac-game-settings-acwing">
                 <img width="30" src="https://app5736.acapp.acwing.com.cn/static/image/settings/acwing_logo.png">
                 <br>
@@ -537,21 +537,21 @@ class Settings{
         this.start();
     }
 
-    start(){
+    start() {
         this.getinfo();
     }
 
-    register(){ // open the register page
+    register() { // open the register page
         this.$login.hide();
         this.$register.show();
     }
 
-    login(){ // open the login page
+    login() { // open the login page
         this.$register.hide();
         this.$login.show();
     }
 
-    getinfo(){
+    getinfo() {
         let outer = this;
         $.ajax({
             url: "https://app5736.acapp.acwing.com.cn/settings/getinfo/",
@@ -560,9 +560,9 @@ class Settings{
                 platform: outer.platform,
 
             },
-            success: function(resp) {
+            success: function (resp) {
                 console.log(resp);
-                if (resp.result === "success"){
+                if (resp.result === "success") {
                     outer.username = resp.username;
                     outer.photo = resp.photo;
                     outer.hide();
@@ -575,16 +575,16 @@ class Settings{
 
         });
     }
-    hide(){
+    hide() {
         this.$settings.hide();
     }
 
-    show(){
+    show() {
         this.$settings.show();
     }
 }
 export class AcGame {
-    constructor(id, AcWingOS){
+    constructor(id, AcWingOS) {
         this.id = id;
         this.$ac_game = $('#' + id);
         this.AcWingOS = AcWingOS;
