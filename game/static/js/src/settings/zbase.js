@@ -230,7 +230,7 @@ class Settings {
             },
             success: function (resp) {
                 console.log(resp);
-                if (resp.result === "Success!") {
+                if (resp.result === "success") {
                     outer.username = resp.username;
                     outer.photo = resp.photo;
                     outer.hide();
