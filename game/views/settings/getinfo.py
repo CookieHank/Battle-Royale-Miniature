@@ -22,12 +22,12 @@ def getinfo_web(request):
             'result': 'success',
             'username' : player.user.username,
             'photo' : player.photo,
-         })
+        })
 
 
 def getinfo(request):
     platform = request.GET.get('platform')
     if platform == 'ACAPP':
         return getinfo_acapp(request)
-    else:
+    elif platform == "WEB":
         return getinfo_web(request)
