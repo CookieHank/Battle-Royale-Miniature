@@ -13,7 +13,7 @@ class Settings {
             Login
         </div>
         <div class="ac-game-settings-username">
-            <div class="ac-game-settings-item">resp.result
+            <div class="ac-game-settings-item">
                 <input type="text" placeholder="Username">
             </div>
         </div>
@@ -107,7 +107,6 @@ class Settings {
         this.start();
     }
 
-
     start() {
         if (this.platform === "ACAPP") {
             this.getinfo_acapp();
@@ -160,7 +159,6 @@ class Settings {
         });
     }
 
-
     login_on_remote() {
         let outer = this;
         let username = this.$login_username.val();
@@ -168,7 +166,7 @@ class Settings {
         this.$login_error_message.empty();
 
         $.ajax({
-            url: "https://app5736.acapp.acwing.com.cn/settings/login/",
+            url: "https://app165.acapp.acwing.com.cn/settings/login/",
             type: "GET",
             data: {
                 username: username,
@@ -192,7 +190,7 @@ class Settings {
         this.$register_error_message.empty();
 
         $.ajax({
-            url: "https://app5736.acapp.acwing.com.cn/settings/register/",
+            url: "https://app165.acapp.acwing.com.cn/settings/register/",
             type: "GET",
             data: {
                 username: username,
@@ -214,7 +212,7 @@ class Settings {
             this.root.AcWingOS.api.window.close();
         } else {
             $.ajax({
-                url: "https://app5736.acapp.acwing.com.cn/settings/logout/",
+                url: "https://app165.acapp.acwing.com.cn/settings/logout/",
                 type: "GET",
                 success: function (resp) {
                     if (resp.result === "success") {
@@ -225,13 +223,12 @@ class Settings {
         }
     }
 
-
-    register() { // open the register page
+    register() {
         this.$login.hide();
         this.$register.show();
     }
 
-    login() { // open the login page
+    login() {
         this.$register.hide();
         this.$login.show();
     }
@@ -249,6 +246,19 @@ class Settings {
         });
     }
 
+    getinfo_acapp() {
+        let outer = this;
+
+        $.ajax({
+            url: "https://app165.acapp.acwing.com.cn/settings/acwing/acapp/apply_code/",
+            type: "GET",
+            success: function (resp) {
+                if (resp.result === "success") {
+                    outer.acapp_login(resp.appid, resp.redirect_uri, resp.scope, resp.state);
+                }
+            }
+        });
+    }
 
     getinfo_web() {
         let outer = this;
@@ -271,21 +281,6 @@ class Settings {
             }
         });
     }
-
-    getinfo_acapp() {
-        let outer = this;
-
-        $.ajax({
-            url: "https://app165.acapp.acwing.com.cn/settings/acwing/acapp/apply_code/",
-            type: "GET",
-            success: function (resp) {
-                if (resp.result === "success") {
-                    outer.acapp_login(resp.appid, resp.redirect_uri, resp.scope, resp.state);
-                }
-            }
-        });
-    }
-
 
     hide() {
         this.$settings.hide();
